@@ -109,7 +109,7 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         return player;
     }
     
-    public String getResponse() {
+    public String getOutput() {
         return response;
     }
     

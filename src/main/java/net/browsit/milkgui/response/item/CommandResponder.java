@@ -10,38 +10,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event.window;
+package net.browsit.milkgui.response.item;
 
-import org.bukkit.Sound;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.browsit.milkgui.event.WindowResponse;
+import net.browsit.milkgui.response.Response;
 
-public class PlaySoundResponder implements WindowResponse {
+public class CommandResponder implements Response {
     
-    Sound sound;
-    float volume;
-    float pitch;
+    CommandSender sender;
+    String commandLine;
+    boolean closeInventory = false;
     
-    public PlaySoundResponder(final Sound sound, final float volume, final float pitch) {
-        this.sound = sound;
-        this.volume = volume;
-        this.pitch = pitch;
+    public CommandResponder(final CommandSender sender, final String commandLine) {
+        this.sender = sender;
+        this.commandLine = commandLine;
+    }
+    
+    public CommandResponder(final CommandSender sender, final String commandLine, final boolean closeInventory) {
+        this.sender = sender;
+        this.commandLine = commandLine;
+        this.closeInventory = closeInventory;
     }
 
     @Override
-    public void onOpen(final InventoryOpenEvent event) {
-        if (event.getPlayer() instanceof Player) {
-            ((Player)event.getPlayer()).playSound(event.getPlayer().getLocation(), sound, volume, pitch);
-        }
-    }
-
-    @Override
-    public void onClose(final InventoryCloseEvent event) {
-        if (event.getPlayer() instanceof Player) {
-            ((Player)event.getPlayer()).playSound(event.getPlayer().getLocation(), sound, volume, pitch);
+    public void onClick(final InventoryClickEvent event) {
+        Bukkit.getServer().dispatchCommand(sender, commandLine);
+        if (closeInventory && sender instanceof Player) {
+            ((Player)sender).closeInventory();
         }
     }
 }

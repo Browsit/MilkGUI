@@ -10,7 +10,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event.element;
+package net.browsit.milkgui.response.item;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +21,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.browsit.milkgui.MilkGUI;
-import net.browsit.milkgui.event.ElementResponse;
 import net.browsit.milkgui.gui.type.PaginatedGUI;
 import net.browsit.milkgui.item.ItemSection;
+import net.browsit.milkgui.response.Response;
 
-public class NewPageResponder implements ElementResponse {
+public class NewPageResponder implements Response {
     
     PaginatedGUI gui;
     int page;

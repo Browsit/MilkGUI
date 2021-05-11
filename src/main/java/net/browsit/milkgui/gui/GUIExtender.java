@@ -32,10 +32,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import net.browsit.milkgui.MilkGUI;
-import net.browsit.milkgui.event.ElementResponse;
-import net.browsit.milkgui.event.WindowResponse;
 import net.browsit.milkgui.item.Item;
 import net.browsit.milkgui.item.ItemSection;
+import net.browsit.milkgui.response.Response;
+import net.browsit.milkgui.response.WindowResponse;
 
 public abstract class GUIExtender implements Listener, WindowResponse {
 
@@ -43,7 +43,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     private final int id;
     private GUI gui;
     private WindowResponse windowResponse;
-    private Map<Integer, ElementResponse> elements = new HashMap<Integer, ElementResponse>();
+    private Map<Integer, Response> responses = new HashMap<Integer, Response>();
     private GUISettings guiSettings = new GUISettings();
 
     public GUIExtender(final GUI gui) {
@@ -75,32 +75,32 @@ public abstract class GUIExtender implements Listener, WindowResponse {
         this.windowResponse = windowResponse;
     }
     
-    public Map<Integer, ElementResponse> getElements() {
-        return elements;
+    public Map<Integer, Response> getResponses() {
+        return responses;
     }
     
-    public void setElements(final Map<Integer, ElementResponse> elements) {
-        this.elements = elements;
+    public void setResponses(final Map<Integer, Response> responses) {
+        this.responses = responses;
     }
     
-    public ElementResponse getElementFor(final int slot) {
-        return elements.get(slot);
+    public Response getResponseFor(final int slot) {
+        return responses.get(slot);
     }
 
-    public boolean hasElement(final int slot) {
-        return elements.containsKey(slot);
+    public boolean hasResponse(final int slot) {
+        return responses.containsKey(slot);
     }
 
-    public void addElement(final int slot, final ElementResponse element) {
-        this.elements.put(slot, element);
+    public void addResponse(final int slot, final Response response) {
+        this.responses.put(slot, response);
     }
     
-    public void addEmptyElement(final int slot) {
-        this.elements.put(slot, null);
+    public void addEmptyResponse(final int slot) {
+        this.responses.put(slot, null);
     }
     
     public void clearElements() {
-        elements.clear();
+        responses.clear();
     }
     
     public GUISettings getGuiSettings() {
@@ -251,10 +251,10 @@ public abstract class GUIExtender implements Listener, WindowResponse {
             final int slot = section.getSlot();
             final Item item = section.getItem();
 
-            if (section.getElementResponse() != null) {
-                addElement(slot, section.getElementResponse());
+            if (section.getResponse() != null) {
+                addResponse(slot, section.getResponse());
             } else {
-                addEmptyElement(slot);
+                addEmptyResponse(slot);
             }
 
             gui.setItem(slot, item);
@@ -267,7 +267,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     
     public void setItem(final int slot, final Item item) {
         gui.setItem(slot, item);
-        addEmptyElement(slot);
+        addEmptyResponse(slot);
         updateInventory();
     }
     
@@ -276,24 +276,24 @@ public abstract class GUIExtender implements Listener, WindowResponse {
         if (section.getTask() != null) {
             gui.addTask(section.getSlot(), section.getTask());
         }
-        if (section.getElementResponse() != null) {
-            addElement(section.getSlot(), section.getElementResponse());
+        if (section.getResponse() != null) {
+            addResponse(section.getSlot(), section.getResponse());
         } else {
-            addEmptyElement(section.getSlot());
+            addEmptyResponse(section.getSlot());
         }
         updateInventory();
     }
 
     public int addItem(final Item item) {
         final int index = gui.addItem(item);
-        addEmptyElement(index);
+        addEmptyResponse(index);
         updateInventory();
         return index;
     }
 
-    public int addItem(final Item item, final ElementResponse elementResponse) {
+    public int addItem(final Item item, final Response response) {
         final int index = gui.addItem(item);
-        addElement(index, elementResponse);
+        addResponse(index, response);
         updateInventory();
         return index;
     }
@@ -324,7 +324,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     }
 
     private void checkElements(final InventoryClickEvent event) {
-        for (final Entry<Integer, ElementResponse> entry : elements.entrySet()) {
+        for (final Entry<Integer, Response> entry : responses.entrySet()) {
             final int slot = entry.getKey();
 
             if (slot != event.getSlot())

@@ -29,11 +29,11 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.browsit.milkgui.event.element.NewPageResponder;
 import net.browsit.milkgui.gui.GUI;
 import net.browsit.milkgui.gui.GUIExtender;
 import net.browsit.milkgui.item.Item;
 import net.browsit.milkgui.item.ItemSection;
+import net.browsit.milkgui.response.item.NewPageResponder;
 
 public class PaginatedGUI extends GUIExtender implements ConfigurationSerializable {
     
@@ -125,7 +125,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         int i = 0;
         for (final ItemSection sortedSection : sortedSections) {
             if (content.contains(sortedSection.getSlot())) {
-                final ItemSection section = new ItemSection(i, sortedSection.getItem(), "none", sortedSection.getElementResponse());
+                final ItemSection section = new ItemSection(i, sortedSection.getItem(), "none", sortedSection.getResponse());
                 setItem(section);
                 i++;
             }

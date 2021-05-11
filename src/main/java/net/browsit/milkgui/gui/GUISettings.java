@@ -18,9 +18,9 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import net.browsit.milkgui.event.EnteredItemResponse;
-import net.browsit.milkgui.event.NotEnterableItemResponse;
 import net.browsit.milkgui.item.Item;
+import net.browsit.milkgui.response.EnteredItemResponse;
+import net.browsit.milkgui.response.NotEnterableItemResponse;
 
 public class GUISettings {
 

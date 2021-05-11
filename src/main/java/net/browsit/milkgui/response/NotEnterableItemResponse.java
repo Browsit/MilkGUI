@@ -10,13 +10,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event;
+package net.browsit.milkgui.response;
 
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-public interface WindowResponse {
+public interface NotEnterableItemResponse {
 
-    void onOpen(InventoryOpenEvent event);
-    void onClose(InventoryCloseEvent event);
+    void event(InventoryClickEvent event);
+
 }

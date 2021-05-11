@@ -10,25 +10,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event.element;
+package net.browsit.milkgui.response;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.browsit.milkgui.event.ElementResponse;
-
-public class KickPlayerResponder implements ElementResponse {
+public interface Response {
     
-    Player player;
-    String message;
-    
-    public KickPlayerResponder(final Player player, final String message) {
-        this.player = player;
-        this.message = message;
+    default String getName() {
+        return getClass().getSimpleName();
     }
 
-    @Override
-    public void onClick(final InventoryClickEvent event) {
-        player.kickPlayer(message);
-    }
+    void onClick(InventoryClickEvent event);
+
 }

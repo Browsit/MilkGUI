@@ -18,14 +18,14 @@ import java.util.Map;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
-import net.browsit.milkgui.event.ElementResponse;
+import net.browsit.milkgui.response.Response;
 
 public class ItemSection implements ConfigurationSerializable, Comparable<ItemSection>{
 
     private int slot;
     private Item item;
     private String task;
-    private ElementResponse elementResponse;
+    private Response response;
 
     public ItemSection(final int slot, final Item item) {
         this.slot = slot;
@@ -38,11 +38,11 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         this.task = task;
     }
     
-    public ItemSection(final int slot, final Item item, final String task, final ElementResponse elementResponse) {
+    public ItemSection(final int slot, final Item item, final String task, final Response response) {
         this.slot = slot;
         this.item = item;
         this.task = task;
-        this.elementResponse = elementResponse;
+        this.response = response;
     }
 
     @SuppressWarnings("unchecked")
@@ -53,11 +53,11 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
     }
     
     @SuppressWarnings("unchecked")
-    public ItemSection(final Map<String, Object> data, final ElementResponse elementResponse) {
+    public ItemSection(final Map<String, Object> data, final Response response) {
         this.slot = (int) data.get("slot");
         this.item = new Item((Map<String, Object>) data.get("item"));
         this.task = (String) data.get("task");
-        this.elementResponse = elementResponse;
+        this.response = response;
     }
 
     public void register() {
@@ -88,12 +88,12 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         this.task = task;
     }
     
-    public ElementResponse getElementResponse() {
-        return elementResponse;
+    public Response getResponse() {
+        return response;
     }
 
-    public void setElementResponse(final ElementResponse elementResponse) {
-        this.elementResponse = elementResponse;
+    public void setResponse(final Response response) {
+        this.response = response;
     }
     
     @Override
@@ -116,8 +116,8 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         if (task != null && !task.equals(o.getTask())) {
             return task.compareTo(o.getTask());
         }
-        if (elementResponse != null && !elementResponse.getName().equals(o.getElementResponse().getName())) {
-            return elementResponse.getName().compareTo(o.getElementResponse().getName());
+        if (response != null && !response.getName().equals(o.getResponse().getName())) {
+            return response.getName().compareTo(o.getResponse().getName());
         }
         return Integer.compare(slot, o.getSlot());
     }
@@ -131,7 +131,7 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         if (slot == is.getSlot()
             && item.getItemStack().getType().equals(is.getItem().getItemStack().getType())
             && task.equals(is.getTask())
-            && elementResponse.getName().equals(is.getElementResponse().getName())) {
+            && response.getName().equals(is.getResponse().getName())) {
             return true;
         }
         return false;
@@ -144,7 +144,7 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         result = prime * result + slot;
         result = prime * result + ((item == null) ? 0 : item.hashCode());
         result = prime * result + task.hashCode();
-        result = prime * result + elementResponse.hashCode();
+        result = prime * result + response.hashCode();
         return result;
     }
 }

@@ -10,15 +10,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event.element;
+package net.browsit.milkgui.response.item;
 
 import org.bukkit.conversations.Conversable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.browsit.milkgui.event.ElementResponse;
+import net.browsit.milkgui.response.Response;
 
-public class ConversationInputResponder implements ElementResponse {
+public class ConversationInputResponder implements Response {
     
     Conversable conversable;
     String input;

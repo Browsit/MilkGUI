@@ -10,37 +10,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************************************/
 
-package net.browsit.milkgui.event.element;
+package net.browsit.milkgui.response.item;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.browsit.milkgui.event.ElementResponse;
+import net.browsit.milkgui.response.Response;
 
-public class CommandResponder implements ElementResponse {
+public class KickPlayerResponder implements Response {
     
-    CommandSender sender;
-    String commandLine;
-    boolean closeInventory = false;
+    Player player;
+    String message;
     
-    public CommandResponder(final CommandSender sender, final String commandLine) {
-        this.sender = sender;
-        this.commandLine = commandLine;
-    }
-    
-    public CommandResponder(final CommandSender sender, final String commandLine, final boolean closeInventory) {
-        this.sender = sender;
-        this.commandLine = commandLine;
-        this.closeInventory = closeInventory;
+    public KickPlayerResponder(final Player player, final String message) {
+        this.player = player;
+        this.message = message;
     }
 
     @Override
     public void onClick(final InventoryClickEvent event) {
-        Bukkit.getServer().dispatchCommand(sender, commandLine);
-        if (closeInventory && sender instanceof Player) {
-            ((Player)sender).closeInventory();
-        }
+        player.kickPlayer(message);
     }
 }
