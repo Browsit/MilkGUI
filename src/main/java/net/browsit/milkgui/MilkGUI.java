@@ -28,8 +28,16 @@ public enum MilkGUI implements Listener {
     INSTANCE;
 
     private Plugin instance;
-
+    private final String bukkitVersion = Bukkit.getServer().getBukkitVersion().split("-")[0];
     private final Map<Integer, GUIExtender> guiMap = new HashMap<>();
+    
+    public Plugin getInstance() {
+        return instance;
+    }
+    
+    public String getBukkitVersion() {
+        return bukkitVersion;
+    }
 
     public Map<Integer, GUIExtender> getGUIs() {
         return guiMap;
@@ -50,8 +58,44 @@ public enum MilkGUI implements Listener {
         }
         this.instance = plugin;
     }
-
-    public Plugin getInstance() {
-        return instance;
+    
+    public boolean isBelow113() {
+        if (bukkitVersion.matches("^[0-9.]+$")) {
+            switch(bukkitVersion) {
+            case "1.12.2" :
+            case "1.12.1" :
+            case "1.12" :
+            case "1.11.2" :
+            case "1.11.1" :
+            case "1.11" :
+            case "1.10.2" :
+            case "1.10.1" :
+            case "1.10" :
+            case "1.9.4" :
+            case "1.9.3" :
+            case "1.9.2" :
+            case "1.9.1" :
+            case "1.9" :
+            case "1.8.9" :
+            case "1.8.8" :
+            case "1.8.7" :
+            case "1.8.6" :
+            case "1.8.5" :
+            case "1.8.4" :
+            case "1.8.3" :
+            case "1.8.2" :
+            case "1.8.1" :
+            case "1.8" :
+            case "1.7.10" :
+            case "1.7.9" :
+            case "1.7.2" :
+                return true;
+            default:
+                // Bukkit version is 1.13+ or unsupported
+                return false;
+            }
+        }
+        Bukkit.getLogger().severe("Quests received invalid Bukkit version " + bukkitVersion);
+        return false;
     }
 }

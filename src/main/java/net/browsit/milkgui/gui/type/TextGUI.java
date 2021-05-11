@@ -34,9 +34,10 @@ import net.wesjd.anvilgui.AnvilGUI.Builder;
 
 public class TextGUI extends GUIExtender implements ConfigurationSerializable {
     
-    Builder builder;
-    Player player;
-    String response;
+    private final MilkGUI plugin = MilkGUI.INSTANCE;
+    private Builder builder;
+    private Player player;
+    private String response;
     
     public TextGUI(final GUI gui) {
         super(gui);
@@ -82,7 +83,7 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         return data;
     }
     
-    public void build(final BukkitRunnable runnable, final boolean preventClose, final boolean isBelow114) {
+    public void build(final BukkitRunnable runnable, final boolean preventClose) {
         final GUI gui = getGui();
         builder = new AnvilGUI.Builder()
         .onClose(p -> {                   // called when the inventory is closing
@@ -90,14 +91,14 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         .onComplete((p, response) -> {    // called when the inventory output slot is clicked
             this.player = p;
             this.response = response;
-            runnable.runTaskLater(MilkGUI.INSTANCE.getInstance(), 2);
+            runnable.runTaskLater(plugin.getInstance(), 2);
             return AnvilGUI.Response.close();
         })
-        .text(isBelow114 ? gui.getTitle() : " ")     // sets the text the GUI should start with
+        .text(isBelow114() ? gui.getTitle() : " ")     // sets the text the GUI should start with
         .itemLeft(gui.getInventory().getItem(0))        // use a custom item for the first slot
         //.itemRight(gui.getInventory().getItem(1))     // use a custom item for the last slot
-        .title(isBelow114 ? "" : gui.getTitle())     // set the title of the GUI (only works in 1.14+)
-        .plugin(MilkGUI.INSTANCE.getInstance());          // set the plugin instance
+        .title(isBelow114() ? "" : gui.getTitle())     // set the title of the GUI (only works in 1.14+)
+        .plugin(plugin.getInstance());          // set the plugin instance
         
         if (preventClose) {
             builder.preventClose();      // prevents the inventory from being closed
@@ -122,7 +123,14 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
                 public void run() {
                     builder.open(player);
                 }
-            }.runTaskLater(MilkGUI.INSTANCE.getInstance(), 2);
+            }.runTaskLater(plugin.getInstance(), 2);
         }
+    }
+    
+    private boolean isBelow114() {
+        if (plugin.getBukkitVersion().startsWith("1.13") || plugin.isBelow113()) {
+            return true;
+        }
+        return false;
     }
 }
