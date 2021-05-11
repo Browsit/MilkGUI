@@ -20,7 +20,6 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.conversations.Conversable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -81,19 +80,14 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         return data;
     }
     
-    public void build(final Conversable conversable, final boolean preventClose, final boolean isBelow114) {
+    public void build(final BukkitRunnable runnable, final boolean preventClose, final boolean isBelow114) {
         final GUI gui = getGui();
         builder = new AnvilGUI.Builder()
         .onClose(p -> {                   // called when the inventory is closing
         })
         .onComplete((p, response) -> {    // called when the inventory output slot is clicked
             
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    conversable.acceptConversationInput(response);
-                }
-            }.runTaskLater(MilkGUI.INSTANCE.getInstance(), 2);
+            runnable.runTaskLater(MilkGUI.INSTANCE.getInstance(), 2);
             return AnvilGUI.Response.close();
         })
         .text(isBelow114 ? gui.getTitle() : " ")     // sets the text the GUI should start with

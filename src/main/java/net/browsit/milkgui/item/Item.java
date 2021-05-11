@@ -168,7 +168,7 @@ public class Item implements ConfigurationSerializable {
     }
 
     public Item setLore(final List<String> lore) {
-        if (meta != null && !lore.isEmpty() && !lore.get(0).equals("")) {
+        if (meta != null && lore != null && !lore.isEmpty() && !lore.get(0).equals("")) {
             meta.setLore(ColorUtil.fixColor(lore));
             item.setItemMeta(meta);
         }
@@ -176,7 +176,7 @@ public class Item implements ConfigurationSerializable {
     }
 
     public Item setLore(final String... lore) {
-        if (meta != null && !Arrays.asList(lore).isEmpty() && !lore[0].equals("")) {
+        if (meta != null && lore != null && !Arrays.asList(lore).isEmpty() && !lore[0].equals("")) {
             meta.setLore(Arrays.asList(ColorUtil.fixColor(lore)));
             item.setItemMeta(meta);
         }
