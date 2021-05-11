@@ -35,6 +35,8 @@ import net.wesjd.anvilgui.AnvilGUI.Builder;
 public class TextGUI extends GUIExtender implements ConfigurationSerializable {
     
     Builder builder;
+    Player player;
+    String response;
     
     public TextGUI(final GUI gui) {
         super(gui);
@@ -86,7 +88,8 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         .onClose(p -> {                   // called when the inventory is closing
         })
         .onComplete((p, response) -> {    // called when the inventory output slot is clicked
-            
+            this.player = p;
+            this.response = response;
             runnable.runTaskLater(MilkGUI.INSTANCE.getInstance(), 2);
             return AnvilGUI.Response.close();
         })
@@ -99,6 +102,14 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         if (preventClose) {
             builder.preventClose();      // prevents the inventory from being closed
         }
+    }
+    
+    public Player getPlayer() {
+        return player;
+    }
+    
+    public String getResponse() {
+        return response;
     }
     
     @Override
