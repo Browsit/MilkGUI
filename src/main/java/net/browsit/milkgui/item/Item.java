@@ -74,16 +74,37 @@ public class Item implements ConfigurationSerializable {
     public Item(final Material type) {
         item = new ItemStack(type);
         meta = item.getItemMeta();
+        // Hide flags by default 
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
     }
     
     public Item(final String type) {
         item = new ItemStack(getMaterialFromName(type));
         meta = item.getItemMeta();
+        // Hide flags by default 
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
     }
     
     public Item(final ItemStack itemStack) {
         item = itemStack;
         meta = item.getItemMeta();
+        // Hide flags by default 
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
     }
 
     @SuppressWarnings({ "unchecked", "deprecation" })
