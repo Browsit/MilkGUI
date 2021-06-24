@@ -3,5 +3,3 @@ before_install:
   - sdk update
   - sdk install java 16.0.1.hs-adpt
   - sdk use java 16.0.1.hs-adpt
-jdk:
-  - openjdk16
