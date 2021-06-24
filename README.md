@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.github.Browsit</groupId>
             <artifactId>MilkGUI</artifactId>
-            <version>1.2</version>
+            <version>1.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
