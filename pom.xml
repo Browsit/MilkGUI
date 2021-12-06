@@ -6,7 +6,7 @@
 
     <groupId>org.browsit</groupId>
     <artifactId>MilkGUI</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
+            <version>1.5.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
