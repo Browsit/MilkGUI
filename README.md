@@ -8,15 +8,15 @@
 ```xml
    <repositories>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
    </repositories>
 ```
 ```xml
     <dependencies>
         <dependency>
-            <groupId>com.github.Browsit</groupId>
+            <groupId>org.browsit</groupId>
             <artifactId>MilkGUI</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
