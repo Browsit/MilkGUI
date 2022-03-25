@@ -106,7 +106,7 @@ public enum MilkGUI implements Listener {
                 return false;
             }
         }
-        Bukkit.getLogger().severe("Quests received invalid Bukkit version " + bukkitVersion);
+        Bukkit.getLogger().severe("MilkGUI received invalid Bukkit version " + bukkitVersion);
         return false;
     }
 }
