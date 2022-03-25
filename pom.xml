@@ -54,6 +54,13 @@
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
+            <resource>
+                <directory>${basedir}/</directory>
+                <includes>
+                    <include>README.md</include>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
