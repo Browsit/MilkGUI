@@ -24,4 +24,4 @@
     </dependencies>
 ```
 ## License
-MilkGUI is licensed under the permissive MIT license. Please see [`LICENSE`](https://github.com/Browsit/MilkGUI/blob/master/LICENSE) for more info.
+MilkGUI is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/Browsit/MilkGUI/blob/master/LICENSE.txt) for more info.
