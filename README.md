@@ -23,5 +23,7 @@
         </dependency>
     </dependencies>
 ```
+## Usage
+Documentation and copy-ready examples can be found on [Gitbook](https://browsit.gitbook.io/milkgui/).
 ## License
 MilkGUI is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/Browsit/MilkGUI/blob/master/LICENSE.txt) for more info.
