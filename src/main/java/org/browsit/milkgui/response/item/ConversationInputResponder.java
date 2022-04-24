@@ -25,6 +25,8 @@
 package org.browsit.milkgui.response.item;
 
 import org.browsit.milkgui.response.Response;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -48,7 +50,11 @@ public class ConversationInputResponder implements Response {
 
     @Override
     public void onClick(final InventoryClickEvent event) {
-        conversable.acceptConversationInput(input);
+        if (input.startsWith("/") && conversable instanceof CommandSender) {
+            Bukkit.getServer().dispatchCommand((CommandSender) conversable, input.substring(1));
+        } else {
+            conversable.acceptConversationInput(input);
+        }
         if (closeInventory && conversable instanceof Player) {
             ((Player)conversable).closeInventory();
         }
