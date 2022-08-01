@@ -140,9 +140,6 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
     }
     
     private boolean isBelow114() {
-        if (plugin.getBukkitVersion().startsWith("1.13") || plugin.isBelow113()) {
-            return true;
-        }
-        return false;
+        return plugin.getBukkitVersion().startsWith("1.13") || plugin.isBelow113();
     }
 }
