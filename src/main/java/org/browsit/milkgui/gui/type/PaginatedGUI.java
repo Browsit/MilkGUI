@@ -27,6 +27,7 @@ package org.browsit.milkgui.gui.type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.browsit.milkgui.gui.GUI;
 import org.browsit.milkgui.gui.GUIExtender;
 import org.browsit.milkgui.item.Item;
 import org.browsit.milkgui.item.ItemSection;
+import org.browsit.milkgui.response.Response;
 import org.browsit.milkgui.response.item.NewPageResponder;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -48,7 +50,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PaginatedGUI extends GUIExtender implements ConfigurationSerializable {
     
-    Collection<ItemSection> sections = new ConcurrentSkipListSet<ItemSection>();
+    Collection<ItemSection> sections = new ConcurrentSkipListSet<>();
     NewPageResponder responder = new NewPageResponder(this);
     
     public PaginatedGUI(final GUI gui) {
@@ -123,7 +125,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         final int pageIndex = (currentPage-1) * maxGUI;
         
         final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
-        final List<ItemSection> sortedSections = new ArrayList<ItemSection>(sections);
+        final List<ItemSection> sortedSections = new ArrayList<>(sections);
         Collections.sort(sortedSections);
         
         // Clear items for new content
@@ -143,7 +145,81 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         }
         
         // Set page arrows
+        removeItem(maxGUI);
+        removeItem(maxGUI + 1);
         setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowPrevious(), "none", responder));
         setItem(new ItemSection(maxGUI + 1, getGuiSettings().getPageArrowNext(), "none", responder));
+    }
+
+    @Override
+    public void setItem(final ItemSection... itemSections) {
+        for (final ItemSection section : itemSections) {
+            final int slot = section.getSlot();
+            final Item item = section.getItem();
+
+            if (section.getResponse() != null) {
+                addResponse(slot, section.getResponse());
+            } else {
+                addEmptyResponse(slot);
+            }
+
+            removeItem(slot);
+            ItemSection newSection = new ItemSection(slot, item);
+            sections.add(newSection);
+            if (section.getTask() != null) {
+                getGui().addTask(slot, section.getTask());
+            }
+            updateInventory();
+        }
+    }
+
+    @Override
+    public void setItem(final int slot, final Item item) {
+        removeItem(slot);
+        ItemSection newSection = new ItemSection(slot, item);
+        sections.add(newSection);
+        addEmptyResponse(slot);
+        updateInventory();
+    }
+
+    @Override
+    public void setItem(final ItemSection section) {
+        int slot = section.getSlot();
+        Item item = section.getItem();
+        removeItem(slot);
+        ItemSection newSection = new ItemSection(slot, item);
+        sections.add(newSection);
+        if (section.getTask() != null) {
+            getGui().addTask(section.getSlot(), section.getTask());
+        }
+        if (section.getResponse() != null) {
+            addResponse(section.getSlot(), section.getResponse());
+        } else {
+            addEmptyResponse(section.getSlot());
+        }
+        updateInventory();
+    }
+
+    @Override
+    public int addItem(final Item item) {
+        final int index = sections.size();
+        sections.add(new ItemSection(index, item));
+        addEmptyResponse(index);
+        updateInventory();
+        return index;
+    }
+
+    @Override
+    public int addItem(final Item item, final Response response) {
+        final int index = sections.size();
+        sections.add(new ItemSection(index, item));
+        addResponse(index, response);
+        updateInventory();
+        return index;
+    }
+
+    @Override
+    public void removeItem(final int slot) {
+        sections.removeIf(oldSection -> oldSection.getSlot() == slot);
     }
 }
