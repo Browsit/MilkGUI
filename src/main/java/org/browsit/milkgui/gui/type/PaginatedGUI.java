@@ -130,9 +130,9 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         
         // Clear items for new content
         for (int i = 0; i < maxGUI; i++) {
-            this.removeItem(i);
+            super.removeItem(i);
         }
-        this.clearElements();
+        super.clearElements();
         
         // Set new content
         int i = 0;

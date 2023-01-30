@@ -283,14 +283,15 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     }
     
     public void setItem(final ItemSection section) {
-        gui.setItem(section.getSlot(), section.getItem());
+        final int slot = section.getSlot();
+        gui.setItem(slot, section.getItem());
         if (section.getTask() != null) {
-            gui.addTask(section.getSlot(), section.getTask());
+            gui.addTask(slot, section.getTask());
         }
         if (section.getResponse() != null) {
-            addResponse(section.getSlot(), section.getResponse());
+            addResponse(slot, section.getResponse());
         } else {
-            addEmptyResponse(section.getSlot());
+            addEmptyResponse(slot);
         }
         updateInventory();
     }
