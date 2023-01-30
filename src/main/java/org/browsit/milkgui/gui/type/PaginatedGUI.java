@@ -139,16 +139,14 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         for (final ItemSection sortedSection : sortedSections) {
             if (content.contains(sortedSection.getSlot())) {
                 final ItemSection section = new ItemSection(i, sortedSection.getItem(), "none", sortedSection.getResponse());
-                setItem(section);
+                super.setItem(section);
                 i++;
             }
         }
         
         // Set page arrows
-        removeItem(maxGUI);
-        removeItem(maxGUI + 1);
-        setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowPrevious(), "none", responder));
-        setItem(new ItemSection(maxGUI + 1, getGuiSettings().getPageArrowNext(), "none", responder));
+        super.setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowPrevious(), "none", responder));
+        super.setItem(new ItemSection(maxGUI + 1, getGuiSettings().getPageArrowNext(), "none", responder));
     }
 
     @Override

@@ -121,7 +121,8 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         if (o == null) {
             return -1;
         }
-        if (item != null && !item.getItemMeta().getDisplayName().equals(o.getItem().getItemMeta().getDisplayName())) {
+        if (item != null && item.getItemMeta() != null &&
+                !item.getItemMeta().getDisplayName().equals(o.getItem().getItemMeta().getDisplayName())) {
             return item.getItemMeta().getDisplayName().compareTo(o.getItem().getItemMeta().getDisplayName());
         }
         if (task != null && !task.equals(o.getTask())) {
