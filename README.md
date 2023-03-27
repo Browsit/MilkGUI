@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.browsit</groupId>
             <artifactId>MilkGUI</artifactId>
-            <version>2.7</version>
+            <version>2.8</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
