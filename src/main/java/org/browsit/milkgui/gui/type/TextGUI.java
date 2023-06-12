@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 import org.browsit.milkgui.MilkGUI;
 import org.browsit.milkgui.gui.GUI;
@@ -99,19 +100,19 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
     public void build(final BukkitRunnable runnable, final boolean preventClose) {
         final GUI gui = getGui();
         builder = new AnvilGUI.Builder()
-        .onClose(p -> {                   // called when the inventory is closing
-        })
-        .onComplete(completion -> {       // called when the inventory output slot is clicked
-            this.player = completion.getPlayer();
-            this.response = completion.getText();
-            runnable.runTaskLater(plugin.getInstance(), 2);
-            return Collections.singletonList(AnvilGUI.ResponseAction.close());
-        })
-        .text(isBelow114() ? gui.getTitle() : " ")     // sets the text the GUI should start with
-        .itemLeft(gui.getInventory().getItem(0))       // use a custom item for the first slot
-        //.itemRight(gui.getInventory().getItem(1))    // use a custom item for the last slot
-        .title(isBelow114() ? "" : gui.getTitle())     // set the title of the GUI (only works in 1.14+)
-        .plugin(plugin.getInstance());                 // set the plugin instance
+                .onClose(p -> {                   // called when the inventory is closing
+                })
+                .onClick((integer, stateSnapshot) -> {       // called when the inventory output slot is clicked
+                    player = stateSnapshot.getPlayer();
+                    response = stateSnapshot.getText();
+                    runnable.runTaskLater(plugin.getInstance(), 2);
+                    return Collections.singletonList(AnvilGUI.ResponseAction.close());
+                })
+                .text(isBelow114() ? gui.getTitle() : " ")     // sets the text the GUI should start with
+                .itemLeft(gui.getInventory().getItem(0))       // use a custom item for the first slot
+                //.itemRight(gui.getInventory().getItem(1))    // use a custom item for the last slot
+                .title(isBelow114() ? "" : gui.getTitle())     // set the title of the GUI (only works in 1.14+)
+                .plugin(plugin.getInstance());                 // set the plugin instance
         
         if (preventClose) {
             builder.preventClose();      // prevents the inventory from being closed
