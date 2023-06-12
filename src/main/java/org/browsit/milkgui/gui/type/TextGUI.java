@@ -102,11 +102,14 @@ public class TextGUI extends GUIExtender implements ConfigurationSerializable {
         builder = new AnvilGUI.Builder()
                 .onClose(p -> {                   // called when the inventory is closing
                 })
-                .onClick((integer, stateSnapshot) -> {       // called when the inventory output slot is clicked
-                    player = stateSnapshot.getPlayer();
-                    response = stateSnapshot.getText();
-                    runnable.runTaskLater(plugin.getInstance(), 2);
-                    return Collections.singletonList(AnvilGUI.ResponseAction.close());
+                .onClick((integer, stateSnapshot) -> {       // called when an inventory slot is clicked
+                    if (integer == AnvilGUI.Slot.OUTPUT) {
+                        player = stateSnapshot.getPlayer();
+                        response = stateSnapshot.getText();
+                        runnable.runTaskLater(plugin.getInstance(), 2);
+                        return Collections.singletonList(AnvilGUI.ResponseAction.close());
+                    }
+                    return Collections.emptyList();
                 })
                 .text(isBelow114() ? gui.getTitle() : " ")     // sets the text the GUI should start with
                 .itemLeft(gui.getInventory().getItem(0))       // use a custom item for the first slot
