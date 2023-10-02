@@ -118,7 +118,10 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         nextPage.setDisplayName("Next >");
         getGuiSettings().setPageArrowNext(nextPage);
     }
-    
+
+    /**
+     * Draw the GUI with page arrows in final two slots
+     */
     public void draw() {
         final int currentPage = getGuiSettings().getCurrentPage();
         final int maxGUI = getGui().getRows().getSlots() - 2;
@@ -147,6 +150,39 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         // Set page arrows
         super.setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowPrevious(), "none", responder));
         super.setItem(new ItemSection(maxGUI + 1, getGuiSettings().getPageArrowNext(), "none", responder));
+    }
+
+    /**
+     * Draw the GUI with Previous arrow in slot 0, Next arrow in final slot
+     */
+    public void drawUsingFlankedArrows() {
+        final int currentPage = getGuiSettings().getCurrentPage();
+        final int maxGUI = getGui().getRows().getSlots() - 1;
+        final int pageIndex = (currentPage-1) * maxGUI;
+
+        final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
+        final List<ItemSection> sortedSections = new ArrayList<>(sections);
+        Collections.sort(sortedSections);
+
+        // Clear items for new content
+        for (int i = 0; i < maxGUI; i++) {
+            super.removeItem(i);
+        }
+        super.clearElements();
+
+        // Set new content
+        int i = 1;
+        for (final ItemSection sortedSection : sortedSections) {
+            if (content.contains(sortedSection.getSlot())) {
+                final ItemSection section = new ItemSection(i, sortedSection.getItem(), "none", sortedSection.getResponse());
+                super.setItem(section);
+                i++;
+            }
+        }
+
+        // Set page arrows
+        super.setItem(new ItemSection(0, getGuiSettings().getPageArrowPrevious(), "none", responder));
+        super.setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowNext(), "none", responder));
     }
 
     @Override
