@@ -24,7 +24,6 @@
 
 package org.browsit.milkgui.gui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     private final int id;
     private GUI gui;
     private WindowResponse windowResponse;
-    private Map<Integer, Response> responses = new HashMap<Integer, Response>();
+    private Map<Integer, Response> responses = new HashMap<>();
     private GUISettings guiSettings = new GUISettings();
 
     public GUIExtender(final GUI gui) {
@@ -321,7 +320,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
     @SuppressWarnings("deprecation")
     public void updateInventory() {
-        final List<Integer> slots = new ArrayList<>();
+        /*final List<Integer> slots = new ArrayList<>();
         int temp = 0;
         for (final ItemStack itemStack : getBukkitInventory().getContents()) {
             temp++;
@@ -330,7 +329,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
             final int current = temp - 1;
             slots.add(current);
-        }
+        }*/
 
         getBukkitInventory().getViewers().forEach(viewer -> ((Player)viewer).updateInventory());
     }
@@ -339,12 +338,18 @@ public abstract class GUIExtender implements Listener, WindowResponse {
         for (final Entry<Integer, Response> entry : responses.entrySet()) {
             final int slot = entry.getKey();
 
-            if (slot != event.getSlot())
+            if (slot != event.getSlot()) {
                 continue;
-            if (!event.getClickedInventory().equals(getBukkitInventory()))
+            }
+            if (!event.getView().getTopInventory().equals(getBukkitInventory())) {
                 continue;
-            if (!event.getView().getTopInventory().equals(getBukkitInventory()))
+            }
+            if (event.getClickedInventory() == null) {
                 continue;
+            }
+            if (!event.getClickedInventory().equals(getBukkitInventory())) {
+                continue;
+            }
 
             if (entry.getValue() != null) {
                 entry.getValue().onClick(event);

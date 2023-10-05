@@ -40,6 +40,7 @@ public class GUISettings {
     private int currentPage = 1;
     private Item prevPage = new Item(Material.ARROW);
     private Item nextPage = new Item(Material.ARROW);
+    private boolean flankedArrows = false;
     private NotEnterableItemResponse notEnterableItemResponse;
     private EnteredItemResponse enteredItemResponse;
 
@@ -115,5 +116,13 @@ public class GUISettings {
     
     public void setPageArrowNext(final Item nextPage) {
         this.nextPage = nextPage;
+    }
+
+    public boolean hasFlankedArrows() {
+        return flankedArrows;
+    }
+
+    public void setFlankedArrows(final boolean flankedArrows) {
+        this.flankedArrows = flankedArrows;
     }
 }

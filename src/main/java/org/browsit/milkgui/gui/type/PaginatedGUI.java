@@ -51,11 +51,11 @@ import org.bukkit.inventory.ItemStack;
 public class PaginatedGUI extends GUIExtender implements ConfigurationSerializable {
     
     Collection<ItemSection> sections = new ConcurrentSkipListSet<>();
-    NewPageResponder responder = new NewPageResponder(this);
+    NewPageResponder responder;
     
     public PaginatedGUI(final GUI gui) {
         super(gui);
-        
+
         nameArrows();
     }
     
@@ -74,6 +74,10 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
             for (final String mat : enterableMaterials) {
                 getGuiSettings().addEnterableItem(Material.matchMaterial(mat));
             }
+        }
+
+        if (data.containsKey("flankedArrows")) {
+            getGuiSettings().setFlankedArrows((Boolean) data.get("flankedArrows"));
         }
     }
     
@@ -97,6 +101,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         for (final ItemStack itemStack : getGuiSettings().getEnterableItems())
             enterableItems.add(itemStack.getType().name());
         data.put("enterableItems", enterableItems);
+        data.put("flankedArrows", getGuiSettings().hasFlankedArrows());
         data.put("gui", getGui().serialize());
         return data;
     }
@@ -123,6 +128,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
      * Draw the GUI with page arrows in final two slots
      */
     public void draw() {
+        this.getGuiSettings().setFlankedArrows(false);
         final int currentPage = getGuiSettings().getCurrentPage();
         final int maxGUI = getGui().getRows().getSlots() - 2;
         final int pageIndex = (currentPage-1) * maxGUI;
@@ -148,6 +154,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         }
         
         // Set page arrows
+        responder = new NewPageResponder(this);
         super.setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowPrevious(), "none", responder));
         super.setItem(new ItemSection(maxGUI + 1, getGuiSettings().getPageArrowNext(), "none", responder));
     }
@@ -156,6 +163,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
      * Draw the GUI with Previous arrow in slot 0, Next arrow in final slot
      */
     public void drawUsingFlankedArrows() {
+        this.getGuiSettings().setFlankedArrows(true);
         final int currentPage = getGuiSettings().getCurrentPage();
         final int maxGUI = getGui().getRows().getSlots() - 1;
         final int pageIndex = (currentPage-1) * maxGUI;
@@ -181,6 +189,7 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         }
 
         // Set page arrows
+        responder = new NewPageResponder(this);
         super.setItem(new ItemSection(0, getGuiSettings().getPageArrowPrevious(), "none", responder));
         super.setItem(new ItemSection(maxGUI, getGuiSettings().getPageArrowNext(), "none", responder));
     }

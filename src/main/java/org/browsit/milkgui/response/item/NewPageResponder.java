@@ -40,38 +40,55 @@ public class NewPageResponder implements Response {
     
     PaginatedGUI gui;
     int page;
+    boolean flankedArrows;
     
     public NewPageResponder(final PaginatedGUI gui) {
         this.gui = gui;
         this.page = gui.getGuiSettings().getCurrentPage();
+        this.flankedArrows = gui.getGuiSettings().hasFlankedArrows();
     }
 
     @Override
     public void onClick(final InventoryClickEvent event) {
         final Collection<ItemSection> sections = gui.getSections();
         final int currentPage = gui.getGuiSettings().getCurrentPage();
-        final int maxGUI = gui.getGui().getRows().getSlots() - 2;
+        final int maxGUI = flankedArrows ? gui.getGui().getRows().getSlots() - 1 : gui.getGui().getRows().getSlots() - 2;
         final int pageIndex = (currentPage-1) * maxGUI;
-        
+
         final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
         final int maxPage = (int)Math.ceil((double)sections.size() / content.size());
-        
-        if (event.getSlot() == maxGUI && page > 1) { //TODO adjust for smaller inventories
-            page = page - 1;
-        } else if (event.getSlot() == maxGUI+1 && page < maxPage) {
-            page = page + 1;
+
+        if (flankedArrows) {
+            if (event.getSlot() == 0 && page > 1) {
+                page = page - 1;
+            } else if (event.getSlot() == maxGUI && page < maxPage) {
+                page = page + 1;
+            } else {
+                event.setCancelled(true);
+                return;
+            }
         } else {
-            event.setCancelled(true);
-            return;
+            if (event.getSlot() == maxGUI && page > 1) { //TODO adjust for smaller inventories
+                page = page - 1;
+            } else if (event.getSlot() == maxGUI+1 && page < maxPage) {
+                page = page + 1;
+            } else {
+                event.setCancelled(true);
+                return;
+            }
         }
-                
+
         if (page >= 1 && page <= maxPage) {
             new BukkitRunnable() {
-            
+
                 @Override
                 public void run() {
                     gui.getGuiSettings().setCurrentPage(page);
-                    gui.draw();
+                    if (flankedArrows) {
+                        gui.drawUsingFlankedArrows();
+                    } else {
+                        gui.draw();
+                    }
                 }
             }.runTaskLater(MilkGUI.INSTANCE.getInstance(), 1);
         }
