@@ -58,13 +58,13 @@ public class NewPageResponder implements Response {
         final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
         final int maxPage = (int)Math.ceil((double)sections.size() / content.size());
 
+        event.setCancelled(true);
         if (flankedArrows) {
             if (event.getSlot() == 0 && page > 1) {
                 page = page - 1;
             } else if (event.getSlot() == maxGUI && page < maxPage) {
                 page = page + 1;
             } else {
-                event.setCancelled(true);
                 return;
             }
         } else {
@@ -73,7 +73,6 @@ public class NewPageResponder implements Response {
             } else if (event.getSlot() == maxGUI+1 && page < maxPage) {
                 page = page + 1;
             } else {
-                event.setCancelled(true);
                 return;
             }
         }
