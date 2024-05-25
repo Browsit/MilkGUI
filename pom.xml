@@ -5,7 +5,7 @@
 
     <groupId>org.browsit</groupId>
     <artifactId>MilkGUI</artifactId>
-    <version>3.2</version>
+    <version>3.3</version>
 
     <licenses>
         <license>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>1.9.2-SNAPSHOT</version>
+            <version>1.9.4-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
