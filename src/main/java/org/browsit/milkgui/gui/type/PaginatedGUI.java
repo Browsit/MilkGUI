@@ -135,7 +135,8 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
         
         final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
         final List<ItemSection> sortedSections = new ArrayList<>(sections);
-        Collections.sort(sortedSections);
+        // Collections.sort(sortedSections); - Not sure why this is reversed -PikaMug
+        sortedSections.sort(Collections.reverseOrder());
         
         // Clear items for new content
         for (int i = 0; i < maxGUI; i++) {
@@ -170,7 +171,8 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
 
         final List<Integer> content = IntStream.range(pageIndex, pageIndex + maxGUI).boxed().collect(Collectors.toList());
         final List<ItemSection> sortedSections = new ArrayList<>(sections);
-        Collections.sort(sortedSections);
+        // Collections.sort(sortedSections); - Not sure why this is reversed -PikaMug
+        sortedSections.sort(Collections.reverseOrder());
 
         // Clear items for new content
         for (int i = 0; i < maxGUI; i++) {
