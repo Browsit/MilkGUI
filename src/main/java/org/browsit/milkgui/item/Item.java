@@ -32,9 +32,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import org.browsit.milkgui.MilkGUI;
 import org.browsit.milkgui.util.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -168,6 +171,11 @@ public class Item implements ConfigurationSerializable {
             }
         }
         // Hide flags by default then remove as specified
+        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+            // This is necessary to use flags as of 1.20.6
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+        }
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
