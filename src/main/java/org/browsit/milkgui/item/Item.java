@@ -25,11 +25,13 @@
 package org.browsit.milkgui.item;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.browsit.milkgui.MilkGUI;
@@ -71,15 +73,9 @@ public class Item implements ConfigurationSerializable {
                     meta.addEnchant(ie.getEnchantment(), ie.getLevel(), ie.isUnsafe());
                 }
             }
-            // Hide flags by default then remove as specified
-            if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-                // This is necessary to use flags as of 1.20.6
-                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                        new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-            }
-            meta.addItemFlags(ItemFlag.values());
+            this.addItemFlags(ItemFlag.values());
             if (builder.flags != null) {
-                meta.removeItemFlags(builder.flags);
+                this.removeItemFlags(builder.flags);
             }
         }
         item.setItemMeta(meta);
@@ -88,37 +84,19 @@ public class Item implements ConfigurationSerializable {
     public Item(final Material type) {
         item = new ItemStack(type);
         meta = item.getItemMeta();
-        // Hide flags by default
-        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-            // This is necessary to use flags as of 1.20.6
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        }
-        meta.addItemFlags(ItemFlag.values());
+        this.addItemFlags(ItemFlag.values());
     }
     
     public Item(final String type) {
         item = new ItemStack(getMaterialFromName(type));
         meta = item.getItemMeta();
-        // Hide flags by default
-        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-            // This is necessary to use flags as of 1.20.6
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        }
-        meta.addItemFlags(ItemFlag.values());
+        this.addItemFlags(ItemFlag.values());
     }
     
     public Item(final ItemStack itemStack) {
         item = itemStack;
         meta = item.getItemMeta();
-        // Hide flags by default
-        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-            // This is necessary to use flags as of 1.20.6
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        }
-        meta.addItemFlags(ItemFlag.values());
+        this.addItemFlags(ItemFlag.values());
     }
 
     @SuppressWarnings({ "unchecked", "deprecation" })
@@ -170,15 +148,10 @@ public class Item implements ConfigurationSerializable {
                 meta.addEnchant(e.getKey(), e.getValue(), true);
             }
         }
-        // Hide flags by default then remove as specified
-        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-            // This is necessary to use flags as of 1.20.6
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        }
-        meta.addItemFlags(ItemFlag.values());
+
+        this.addItemFlags(ItemFlag.values());
         if (data.get("itemflags") != null) {
-            meta.removeItemFlags((ItemFlag[]) data.get("itemflags"));
+            this.removeItemFlags((ItemFlag[]) data.get("itemflags"));
         }
         item.setItemMeta(meta);
     }
@@ -244,6 +217,12 @@ public class Item implements ConfigurationSerializable {
     
     public Item addItemFlags(final ItemFlag...itemFlags) {
         if (meta != null) {
+            // Hide flags by default then remove as specified
+            if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+                // This is necessary to use flags as of 1.20.6
+                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                        new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            }
             meta.addItemFlags(itemFlags);
             item.setItemMeta(meta);
         }
@@ -252,6 +231,16 @@ public class Item implements ConfigurationSerializable {
     
     public Item removeItemFlags(final ItemFlag...itemFlags) {
         if (meta != null) {
+            // Hide flags by default then remove as specified
+            if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+                // This is necessary to use flags as of 1.20.6
+                final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE);
+                if (modifiers != null) {
+                    for (final AttributeModifier modifier : modifiers) {
+                        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+                    }
+                }
+            }
             meta.removeItemFlags(itemFlags);
             item.setItemMeta(meta);
         }
