@@ -72,12 +72,12 @@ public class Item implements ConfigurationSerializable {
                 }
             }
             // Hide flags by default then remove as specified
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-            meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+                // This is necessary to use flags as of 1.20.6
+                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                        new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            }
+            meta.addItemFlags(ItemFlag.values());
             if (builder.flags != null) {
                 meta.removeItemFlags(builder.flags);
             }
@@ -88,37 +88,37 @@ public class Item implements ConfigurationSerializable {
     public Item(final Material type) {
         item = new ItemStack(type);
         meta = item.getItemMeta();
-        // Hide flags by default 
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        // Hide flags by default
+        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+            // This is necessary to use flags as of 1.20.6
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+        }
+        meta.addItemFlags(ItemFlag.values());
     }
     
     public Item(final String type) {
         item = new ItemStack(getMaterialFromName(type));
         meta = item.getItemMeta();
-        // Hide flags by default 
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        // Hide flags by default
+        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+            // This is necessary to use flags as of 1.20.6
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+        }
+        meta.addItemFlags(ItemFlag.values());
     }
     
     public Item(final ItemStack itemStack) {
         item = itemStack;
         meta = item.getItemMeta();
-        // Hide flags by default 
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        // Hide flags by default
+        if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
+            // This is necessary to use flags as of 1.20.6
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                    new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+        }
+        meta.addItemFlags(ItemFlag.values());
     }
 
     @SuppressWarnings({ "unchecked", "deprecation" })
@@ -176,12 +176,7 @@ public class Item implements ConfigurationSerializable {
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
                     new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
         }
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.addItemFlags(ItemFlag.values());
         if (data.get("itemflags") != null) {
             meta.removeItemFlags((ItemFlag[]) data.get("itemflags"));
         }
