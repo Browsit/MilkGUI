@@ -214,15 +214,21 @@ public class Item implements ConfigurationSerializable {
         }
         return this;
     }
-    
+
+    @SuppressWarnings({"deprecation", "removal"})
     public Item addItemFlags(final ItemFlag...itemFlags) {
         if (meta != null) {
             // Hide flags by default then remove as specified
             if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-                // This is necessary to use flags as of 1.20.6
-                meta.addAttributeModifier(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS,
-                        new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-
+                try {
+                    // This is necessary to use flags as of 1.20.6
+                    meta.addAttributeModifier(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"),
+                            new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+                } catch (NoSuchFieldError ignored) {
+                    // This is necessary to use flags as of 1.21.2/3
+                    meta.addAttributeModifier(Attribute.ATTACK_DAMAGE,
+                            new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+                }
             }
             meta.addItemFlags(itemFlags);
             item.setItemMeta(meta);
@@ -234,12 +240,21 @@ public class Item implements ConfigurationSerializable {
         if (meta != null) {
             // Hide flags by default then remove as specified
             if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
-                // This is necessary to use flags as of 1.20.6
-                final Attribute attribute = Attribute.ZOMBIE_SPAWN_REINFORCEMENTS;
-                final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(attribute);
-                if (modifiers != null) {
-                    for (final AttributeModifier modifier : modifiers) {
-                        meta.removeAttributeModifier(attribute, modifier);
+                try {
+                    // This is necessary to use flags as of 1.20.6
+                    final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"));
+                    if (modifiers != null) {
+                        for (final AttributeModifier modifier : modifiers) {
+                            meta.removeAttributeModifier(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"), modifier);
+                        }
+                    }
+                } catch (NoSuchFieldError ignored) {
+                    // This is necessary to use flags as of 1.21.2/3
+                    final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.ATTACK_DAMAGE);
+                    if (modifiers != null) {
+                        for (final AttributeModifier modifier : modifiers) {
+                            meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE, modifier);
+                        }
                     }
                 }
             }
