@@ -224,7 +224,7 @@ public class Item implements ConfigurationSerializable {
                     // This is necessary to use flags as of 1.20.6
                     meta.addAttributeModifier(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"),
                             new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-                } catch (NoSuchFieldError ignored) {
+                } catch (final Exception ignored) {
                     // This is necessary to use flags as of 1.21.2/3
                     meta.addAttributeModifier(Attribute.ATTACK_DAMAGE,
                             new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
@@ -248,7 +248,7 @@ public class Item implements ConfigurationSerializable {
                             meta.removeAttributeModifier(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"), modifier);
                         }
                     }
-                } catch (NoSuchFieldError ignored) {
+                } catch (final Exception ignored) {
                     // This is necessary to use flags as of 1.21.2/3
                     final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.ATTACK_DAMAGE);
                     if (modifiers != null) {
