@@ -226,7 +226,7 @@ public class Item implements ConfigurationSerializable {
                             new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
                 } catch (final Exception ignored) {
                     // This is necessary to use flags as of 1.21.2/3
-                    meta.addAttributeModifier(Attribute.ATTACK_DAMAGE,
+                    meta.addAttributeModifier(Attribute.valueOf("ATTACK_DAMAGE"),
                             new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
                 }
             }
@@ -250,10 +250,10 @@ public class Item implements ConfigurationSerializable {
                     }
                 } catch (final Exception ignored) {
                     // This is necessary to use flags as of 1.21.2/3
-                    final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.ATTACK_DAMAGE);
+                    final Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(Attribute.valueOf("ATTACK_DAMAGE"));
                     if (modifiers != null) {
                         for (final AttributeModifier modifier : modifiers) {
-                            meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE, modifier);
+                            meta.removeAttributeModifier(Attribute.valueOf("ATTACK_DAMAGE"), modifier);
                         }
                     }
                 }
