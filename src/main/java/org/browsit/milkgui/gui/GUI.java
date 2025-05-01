@@ -106,7 +106,7 @@ public class GUI implements ConfigurationSerializable {
             for (int i = 0; i < this.inventory.getContents().length; i++) {
                 final ItemStack itemStack = this.inventory.getItem(i);
 
-                if (itemStack.getType().equals(material)
+                if (itemStack != null && itemStack.getType().equals(material)
                         && itemStack.getDurability() == data)
                     return i;
             }
