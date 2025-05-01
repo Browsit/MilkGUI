@@ -68,6 +68,12 @@
                 <version>3.5.3</version>
                 <!-- Do not include the <configuration>...</configuration> part if you are using Sponge! -->
                 <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>net.wesjd:anvilgui</include>
+                            <include>org.browsit:MilkGUI</include>
+                        </includes>
+                    </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>net.wesjd</pattern>
