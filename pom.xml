@@ -5,7 +5,7 @@
 
     <groupId>org.browsit</groupId>
     <artifactId>MilkGUI</artifactId>
-    <version>4.0.3</version>
+    <version>4.0.4</version>
 
     <licenses>
         <license>
@@ -24,8 +24,8 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <id>mvn-wesjd-net</id>
+            <url>https://mvn.wesjd.net/</url>
         </repository>
     </repositories>
 
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>1.10.10-SNAPSHOT</version>
+            <version>1.10.11-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
