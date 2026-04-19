@@ -31,10 +31,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.browsit.milkgui.MilkGUI;
+import org.browsit.milkgui.util.AttributeUtil;
 import org.browsit.milkgui.util.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -221,13 +220,11 @@ public class Item implements ConfigurationSerializable {
             // Hide flags by default then remove as specified
             if (Material.getMaterial("ARMADILLO_SCUTE") != null) {
                 try {
-                    // This is necessary to use flags as of 1.20.6
-                    meta.addAttributeModifier(Attribute.valueOf("GENERIC_ATTACK_DAMAGE"),
-                            new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-                } catch (final Exception | IncompatibleClassChangeError ignored) {
-                    // This is necessary to use flags as of 1.21.2/3
-                    meta.addAttributeModifier(Attribute.valueOf("ATTACK_DAMAGE"),
-                            new AttributeModifier("foo", 0, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+                    meta.addAttributeModifier(
+                            Attribute.valueOf("GENERIC_ATTACK_DAMAGE"),
+                            AttributeUtil.create("foo", 0.0, AttributeModifier.Operation.MULTIPLY_SCALAR_1)
+                    );
+                } catch (Throwable ignored) {
                 }
             }
             meta.addItemFlags(itemFlags);
