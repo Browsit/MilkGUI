@@ -143,7 +143,6 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     public void onInventoryClick(final InventoryClickEvent event) {
         if (event.getView() == null
                 || InventoryUtil.getTopInventory(event) == null
-                || event.getView().getBottomInventory() == null
                 || event.getClickedInventory() == null) {
             return;
         }
