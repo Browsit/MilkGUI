@@ -46,6 +46,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class GUIExtender implements Listener, WindowResponse {
@@ -234,8 +235,9 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
     @EventHandler
     public void onInventoryOpen(final InventoryOpenEvent event) {
-        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
-                || event.getView().getType().equals(InventoryType.ANVIL)) {
+        final InventoryView view = event.getView();
+        if (view.getTopInventory().equals(getBukkitInventory())
+                || view.getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onOpen(event);
             }
@@ -245,8 +247,9 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
-        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
-                || event.getView().getType().equals(InventoryType.ANVIL)) {
+        final InventoryView view = event.getView();
+        if (view.getTopInventory().equals(getBukkitInventory())
+                || view.getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onClose(event);
             }
