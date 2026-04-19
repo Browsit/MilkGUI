@@ -142,9 +142,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent event) {
-        if (event.getView() == null
-                || InventoryUtil.getTopInventory(event) == null
-                || event.getClickedInventory() == null) {
+        if (InventoryUtil.getTopInventory(event) == null || event.getClickedInventory() == null) {
             return;
         }
         if (guiSettings.hasEnterableItems()) {
@@ -235,9 +233,8 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
     @EventHandler
     public void onInventoryOpen(final InventoryOpenEvent event) {
-        final InventoryView view = event.getView();
         if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
-                || view.getType().equals(InventoryType.ANVIL)) {
+                || InventoryUtil.getTopInventory(event).equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onOpen(event);
             }
@@ -247,9 +244,8 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
-        final InventoryView view = event.getView();
         if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
-                || view.getType().equals(InventoryType.ANVIL)) {
+                || InventoryUtil.getTopInventory(event).equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onClose(event);
             }
