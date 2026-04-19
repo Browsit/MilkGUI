@@ -34,6 +34,7 @@ import org.browsit.milkgui.item.Item;
 import org.browsit.milkgui.item.ItemSection;
 import org.browsit.milkgui.response.Response;
 import org.browsit.milkgui.response.WindowResponse;
+import org.browsit.milkgui.util.InventoryUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -127,7 +128,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
 
     @EventHandler
     public void onInventoryDrag(final InventoryDragEvent event) {
-        if (event.getView().getTopInventory().equals(getBukkitInventory())
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                 && !guiSettings.canDragItems()) {
             event.setCancelled(true);
             return;
@@ -141,14 +142,14 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent event) {
         if (event.getView() == null
-                || event.getView().getTopInventory() == null
+                || InventoryUtil.getTopInventory(event) == null
                 || event.getView().getBottomInventory() == null
                 || event.getClickedInventory() == null) {
             return;
         }
         if (guiSettings.hasEnterableItems()) {
             if (!event.isShiftClick()) {
-                if (event.getView().getTopInventory().equals(getBukkitInventory())
+                if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                         && event.getClickedInventory().equals(getBukkitInventory())
                         && event.getCursor() != null) {
                     if (canEnter(event.getCursor())) {
@@ -165,7 +166,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
                     return;
                 }
             } else {
-                if (event.getView().getTopInventory().equals(getBukkitInventory())
+                if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                         && !event.getClickedInventory().equals(getBukkitInventory())
                         && event.getCurrentItem() != null) {
                     if (canEnter(event.getCurrentItem())) {
@@ -184,7 +185,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
             }
         }
 
-        if (event.getView().getTopInventory().equals(getBukkitInventory())
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                 && !guiSettings.hasEnterableItems()) {
             if (event.isShiftClick() &&
                     !event.getClickedInventory().equals(getBukkitInventory())) {
@@ -233,26 +234,26 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     }
 
     @EventHandler
-    public void onInventoryOpen(final InventoryOpenEvent e) {
-        if (e.getView().getTopInventory().equals(getBukkitInventory())
-                || e.getView().getType().equals(InventoryType.ANVIL)) {
+    public void onInventoryOpen(final InventoryOpenEvent event) {
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
+                || event.getView().getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
-                windowResponse.onOpen(e);
+                windowResponse.onOpen(event);
             }
         }
     }
 
     @SuppressWarnings("deprecation")
     @EventHandler
-    public void onInventoryClose(final InventoryCloseEvent e) {
-        if (e.getView().getTopInventory().equals(getBukkitInventory())
-                || e.getView().getType().equals(InventoryType.ANVIL)) {
+    public void onInventoryClose(final InventoryCloseEvent event) {
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
+                || event.getView().getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
-                windowResponse.onClose(e);
+                windowResponse.onClose(event);
             }
 
             Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () ->
-                    ((Player) e.getPlayer()).updateInventory(), 5);
+                    ((Player) event.getPlayer()).updateInventory(), 5);
         }
     }
 
@@ -341,7 +342,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
             if (slot != event.getSlot()) {
                 continue;
             }
-            if (!event.getView().getTopInventory().equals(getBukkitInventory())) {
+            if (!InventoryUtil.getTopInventory(event).equals(getBukkitInventory())) {
                 continue;
             }
             if (event.getClickedInventory() == null) {
