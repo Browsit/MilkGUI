@@ -236,7 +236,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     @EventHandler
     public void onInventoryOpen(final InventoryOpenEvent event) {
         final InventoryView view = event.getView();
-        if (view.getTopInventory().equals(getBukkitInventory())
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                 || view.getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onOpen(event);
@@ -248,7 +248,7 @@ public abstract class GUIExtender implements Listener, WindowResponse {
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
         final InventoryView view = event.getView();
-        if (view.getTopInventory().equals(getBukkitInventory())
+        if (InventoryUtil.getTopInventory(event).equals(getBukkitInventory())
                 || view.getType().equals(InventoryType.ANVIL)) {
             if (windowResponse != null) {
                 windowResponse.onClose(event);
