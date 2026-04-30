@@ -50,8 +50,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class PaginatedGUI extends GUIExtender implements ConfigurationSerializable {
     
-    Collection<ItemSection> sections = new ConcurrentSkipListSet<>();
-    NewPageResponder responder;
+    private Collection<ItemSection> sections = new ConcurrentSkipListSet<>();
+    private NewPageResponder responder;
     
     public PaginatedGUI(final GUI gui) {
         super(gui);
@@ -199,49 +199,35 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
     @Override
     public void setItem(final ItemSection... itemSections) {
         for (final ItemSection section : itemSections) {
-            final int slot = section.getSlot();
-            final Item item = section.getItem();
-
-            if (section.getResponse() != null) {
-                addResponse(slot, section.getResponse());
-            } else {
-                addEmptyResponse(slot);
-            }
-
-            removeItem(slot);
-            ItemSection newSection = new ItemSection(slot, item);
-            sections.add(newSection);
-            if (section.getTask() != null) {
-                getGui().addTask(slot, section.getTask());
-            }
-            updateInventory();
+            setItem(section);
         }
+    }
+
+    @Override
+    public void setItem(final ItemSection section) {
+        final int slot = section.getSlot();
+        final Item item = section.getItem();
+        final String task = section.getTask();
+        final Response response = section.getResponse();
+        removeItem(slot);
+        if (task != null) {
+            getGui().addTask(slot, task);
+        }
+        if (response != null) {
+            addResponse(slot, response);
+            sections.add(new ItemSection(slot, item, task, response));
+        } else {
+            addEmptyResponse(slot);
+            sections.add(new ItemSection(slot, item, task));
+        }
+        updateInventory();
     }
 
     @Override
     public void setItem(final int slot, final Item item) {
         removeItem(slot);
-        ItemSection newSection = new ItemSection(slot, item);
-        sections.add(newSection);
+        sections.add(new ItemSection(slot, item));
         addEmptyResponse(slot);
-        updateInventory();
-    }
-
-    @Override
-    public void setItem(final ItemSection section) {
-        int slot = section.getSlot();
-        Item item = section.getItem();
-        removeItem(slot);
-        ItemSection newSection = new ItemSection(slot, item);
-        sections.add(newSection);
-        if (section.getTask() != null) {
-            getGui().addTask(section.getSlot(), section.getTask());
-        }
-        if (section.getResponse() != null) {
-            addResponse(section.getSlot(), section.getResponse());
-        } else {
-            addEmptyResponse(section.getSlot());
-        }
         updateInventory();
     }
 
@@ -257,8 +243,8 @@ public class PaginatedGUI extends GUIExtender implements ConfigurationSerializab
     @Override
     public int addItem(final Item item, final Response response) {
         final int index = sections.size();
-        sections.add(new ItemSection(index, item));
         addResponse(index, response);
+        sections.add(new ItemSection(index, item, null, response));
         updateInventory();
         return index;
     }
