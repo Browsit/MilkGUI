@@ -24,6 +24,7 @@
 
 package org.browsit.milkgui.item;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -117,21 +118,32 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
     }
     
     @Override
-    public int compareTo(final ItemSection o) {
-        if (o == null) {
+    public int compareTo(final ItemSection other) {
+        if (other == null) {
+            return 1;
+        }
+        if (this.item == null && other.item != null) {
             return -1;
         }
-        if (item != null && item.getItemMeta() != null && o.getItem().getItemMeta() != null &&
-                !item.getItemMeta().getDisplayName().equals(o.getItem().getItemMeta().getDisplayName())) {
-            return item.getItemMeta().getDisplayName().compareTo(o.getItem().getItemMeta().getDisplayName());
+        if (this.item != null && other.item == null) {
+            return 1;
         }
-        if (task != null && !task.equals(o.getTask())) {
-            return task.compareTo(o.getTask());
+        if (item != null && item.getItemMeta() != null && other.getItem().getItemMeta() != null &&
+                !item.getItemMeta().getDisplayName().equals(other.getItem().getItemMeta().getDisplayName())) {
+            return item.getItemMeta().getDisplayName().compareTo(other.getItem().getItemMeta().getDisplayName());
         }
-        if (response != null && !response.getName().equals(o.getResponse().getName())) {
-            return response.getName().compareTo(o.getResponse().getName());
+        if (this.response == null && other.response != null) {
+            return -1;
         }
-        return Integer.compare(slot, o.getSlot());
+        if (this.response != null && other.response == null) {
+            return 1;
+        }
+        if (this.response != null && !response.getName().equals(other.getResponse().getName())) {
+            return response.getName().compareTo(other.getResponse().getName());
+        }
+        return Comparator.comparingInt(ItemSection::getSlot)
+                .thenComparing(ItemSection::getTask, Comparator.nullsFirst(String::compareTo))
+                .compare(this, other);
     }
     
     @Override
@@ -140,13 +152,10 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
             return false;
         }
         final ItemSection is = (ItemSection) o;
-        if (slot == is.getSlot()
-            && item.getItemStack().getType().equals(is.getItem().getItemStack().getType())
-            && task.equals(is.getTask())
-            && response.getName().equals(is.getResponse().getName())) {
-            return true;
-        }
-        return false;
+        return slot == is.getSlot()
+                && item.getItemStack().getType().equals(is.getItem().getItemStack().getType())
+                && task.equals(is.getTask())
+                && response.getName().equals(is.getResponse().getName());
     }
     
     @Override
