@@ -71,7 +71,7 @@ public enum MilkGUI implements Listener {
     }
     
     public boolean isBelow113() {
-        if (bukkitVersion.matches("^[0-9.]+$")) {
+        if (bukkitVersion.matches("^[0-9A-Za-z]+(\\.[0-9A-Za-z]+)*$")) {
             switch(bukkitVersion) {
             case "1.12.2" :
             case "1.12.1" :

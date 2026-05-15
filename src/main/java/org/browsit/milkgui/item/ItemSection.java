@@ -164,8 +164,8 @@ public class ItemSection implements ConfigurationSerializable, Comparable<ItemSe
         int result = 17;
         result = prime * result + slot;
         result = prime * result + ((item == null) ? 0 : item.hashCode());
-        result = prime * result + task.hashCode();
-        result = prime * result + response.hashCode();
+        result = prime * result + ((task == null) ? 0 : task.hashCode());
+        result = prime * result + ((response == null) ? 0 : response.hashCode());
         return result;
     }
 }
